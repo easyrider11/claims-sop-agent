@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Claims SOP Agent</title>
+<link rel="stylesheet" href="/static/style.css?v=3">
+</head>
+<body>
+<header>
+  <div class="brand">
+    <strong>Claims SOP Agent</strong>
+    <span id="mode" class="badge">…</span>
+  </div>
+  <form id="settings" class="settings" autocomplete="off">
+    <label>Model
+      <select id="provider">
+        <option value="">Server default</option>
+        <option value="anthropic">Anthropic</option>
+        <option value="openai">OpenAI</option>
+        <option value="siliconflow">SiliconFlow (OpenAI-compatible)</option>
+        <option value="none">Rules only (no model)</option>
+      </select>
+    </label>
+    <label>API key
+      <input id="apikey" type="password" placeholder="optional; overrides server env" spellcheck="false">
+    </label>
+    <label>Consent scenario
+      <select id="scenario"></select>
+    </label>
+    <button type="submit">New conversation</button>
+  </form>
+</header>
+
+<main>
+  <section class="chat">
+    <div id="log" class="log" aria-live="polite"></div>
+    <div class="chips" id="chips"></div>
+    <form id="composer" class="composer">
+      <textarea id="msg" rows="2" placeholder="Type as the caller… (Enter to send, Shift+Enter for newline)"></textarea>
+      <button type="submit" id="send">Send</button>
+    </form>
+  </section>
+
+  <aside class="inspector">
+    <div class="card">
+      <h3>SOP phase</h3>
+      <ol id="phases" class="phases"></ol>
+      <div id="phaseNote" class="muted small"></div>
+      <div id="phaseTools" class="small"></div>
+    </div>
+    <div class="card">
+      <h3>Identity gate <span id="idCount" class="muted"></span></h3>
+      <ul id="identity" class="kv"></ul>
+      <div id="idNote" class="muted small"></div>
+    </div>
+    <div class="card">
+      <h3>Memory (kept across phases)</h3>
+      <ul id="memory" class="kv"></ul>
+    </div>
+    <div class="card" id="caseCard">
+      <h3>Case</h3>
+      <ul id="case" class="kv"></ul>
+    </div>
+    <div class="card">
+      <h3>Last turn</h3>
+      <ul id="turn" class="kv"></ul>
+      <details><summary>Full trace</summary><pre id="trace"></pre></details>
+    </div>
+    <div class="card hidden" id="emailCard">
+      <h3>Email outbox (simulated)</h3>
+      <pre id="email"></pre>
+    </div>
+    <div class="card hidden" id="handoffCard">
+      <h3>Human handoff packet</h3>
+      <pre id="handoff"></pre>
+    </div>
+    <div class="card">
+      <details><summary>Event log</summary><pre id="events"></pre></details>
+    </div>
+  </aside>
+</main>
+<script src="/static/app.js?v=3"></script>
+</body>
+</html>

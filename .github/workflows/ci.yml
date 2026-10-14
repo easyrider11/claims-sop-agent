@@ -1,0 +1,35 @@
+name: tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  pytest:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python: ["3.11", "3.12"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+          cache: pip
+      - run: pip install -r requirements-dev.txt
+      - run: python -m pytest -q
+        env:
+          LLM_PROVIDER: none
+      - name: rules-only scenario smoke
+        run: python -m scripts.run_scenarios --provider none --only "Demo case" --out /tmp/t.md
+        env:
+          LLM_PROVIDER: none
+          AUDIT_LOG: "0"
+
+  docker:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: docker build -t claims-sop-agent .
+      - run: docker run --rm -e LLM_PROVIDER=none claims-sop-agent python -m pytest -q

@@ -1,0 +1,18 @@
+# Needs Docker Compose v2.24+ (the env_file long syntax below). Older: `docker compose version`.
+services:
+  agent:
+    build: .
+    ports:
+      - "8000:8000"
+    env_file:
+      - path: .env          # OPENAI_API_KEY=... or ANTHROPIC_API_KEY=...
+        required: false
+    volumes:
+      # Named volumes inherit the image's ownership, so the non-root user can write on any host OS.
+      # Read them with:  docker compose cp agent:/app/outbox ./outbox
+      - outbox:/app/outbox  # simulated emails
+      - logs:/app/logs      # audit log (no PII)
+
+volumes:
+  outbox:
+  logs:

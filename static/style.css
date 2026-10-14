@@ -1,0 +1,64 @@
+:root {
+  --bg: #f6f7f9; --panel: #ffffff; --text: #16191f; --muted: #667085; --line: #e3e6eb;
+  --accent: #1f5eff; --accent-text: #ffffff; --agent: #f0f2f5; --user: #1f5eff; --user-text: #fff;
+  --ok: #12805c; --warn: #b54708; --bad: #b42318; --chip: #eef2ff;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0f1115; --panel: #171a21; --text: #e6e8ec; --muted: #98a2b3; --line: #2a2f3a;
+    --accent: #5b8cff; --agent: #222733; --user: #3d6bff; --chip: #1f2740;
+  }
+}
+* { box-sizing: border-box; }
+body { margin: 0; font: 14px/1.45 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background: var(--bg); color: var(--text); height: 100vh; display: flex; flex-direction: column; }
+header { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; justify-content: space-between;
+  padding: 10px 16px; background: var(--panel); border-bottom: 1px solid var(--line); }
+.brand { display: flex; gap: 10px; align-items: center; }
+.badge { font-size: 12px; padding: 2px 8px; border-radius: 999px; background: var(--chip); color: var(--muted); }
+.badge.degraded { color: var(--warn); }
+.settings { display: flex; flex-wrap: wrap; gap: 10px; align-items: flex-end; }
+.settings label { display: flex; flex-direction: column; font-size: 12px; color: var(--muted); gap: 2px; }
+input, select, textarea, button { font: inherit; color: var(--text); background: var(--panel);
+  border: 1px solid var(--line); border-radius: 8px; padding: 6px 8px; }
+button { background: var(--accent); color: var(--accent-text); border-color: var(--accent); cursor: pointer; }
+button:disabled { opacity: .5; cursor: wait; }
+main { flex: 1; display: grid; grid-template-columns: minmax(0, 1fr) 380px; min-height: 0; }
+.chat { display: flex; flex-direction: column; min-height: 0; border-right: 1px solid var(--line); }
+.log { flex: 1; overflow-y: auto; padding: 16px; display: flex; flex-direction: column; gap: 10px; }
+.msg { max-width: 78%; padding: 9px 12px; border-radius: 12px; white-space: pre-wrap; word-wrap: break-word; }
+.msg.agent { background: var(--agent); align-self: flex-start; border-bottom-left-radius: 4px; }
+.msg.user { background: var(--user); color: var(--user-text); align-self: flex-end; border-bottom-right-radius: 4px; }
+.msg .meta { display: block; font-size: 11px; color: var(--muted); margin-top: 4px; }
+.msg.user .meta { color: rgba(255,255,255,.75); }
+.msg.typing { color: var(--muted); font-style: italic; }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; padding: 8px 16px 0; }
+.chip { background: var(--chip); color: var(--text); border: 1px solid var(--line); border-radius: 999px;
+  padding: 3px 10px; font-size: 12px; }
+.composer { display: flex; gap: 8px; padding: 10px 16px 14px; }
+.composer textarea { flex: 1; resize: none; }
+.inspector { overflow-y: auto; padding: 12px; display: flex; flex-direction: column; gap: 10px; }
+.card { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; }
+.card h3 { margin: 0 0 6px; font-size: 13px; }
+.hidden { display: none; }
+.muted { color: var(--muted); font-weight: normal; }
+.small { font-size: 12px; }
+.phases { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 4px; }
+.phases li { font-size: 11px; padding: 3px 7px; border-radius: 6px; border: 1px solid var(--line); color: var(--muted); }
+.phases li.done { color: var(--ok); border-color: var(--ok); }
+.phases li.now { background: var(--accent); color: var(--accent-text); border-color: var(--accent); }
+.phases li.handoff.now { background: var(--warn); border-color: var(--warn); }
+.kv { list-style: none; padding: 0; margin: 0; font-size: 12px; }
+.kv li { display: flex; justify-content: space-between; gap: 8px; padding: 2px 0; border-bottom: 1px dashed var(--line); }
+.kv li:last-child { border-bottom: 0; }
+.kv .k { color: var(--muted); }
+.kv .v { text-align: right; overflow-wrap: anywhere; }
+.ok { color: var(--ok); } .bad { color: var(--bad); } .warn { color: var(--warn); }
+pre { white-space: pre-wrap; font-size: 11px; margin: 6px 0 0; max-height: 320px; overflow: auto; }
+details summary { cursor: pointer; font-size: 12px; color: var(--muted); }
+@media (max-width: 860px) {
+  body { height: auto; }
+  main { grid-template-columns: 1fr; }
+  .chat { height: 70vh; border-right: 0; border-bottom: 1px solid var(--line); }
+  .msg { max-width: 92%; }
+}
